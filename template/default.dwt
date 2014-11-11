@@ -1,0 +1,28 @@
+<script type="text/javascript" src="{PATH}/js/scripts2.js?<?php echo time();?>"></script>
+<!--<script type="text/javascript" src="public/js/general.js"></script>-->
+<style type="text/css">
+/*estilos complementarios para logica y bifurcacion*/
+.divPreguntas{border-bottom: 1px solid #CCC;height: 15px;padding: 5px;margin: 5px;background: #FFF;}
+.divPreguntas:hover{background: #CEE3F6;cursor: pointer;}
+.divPreguntasSeleccionadas{border: 1px solid #CCC;height: 15px;padding: 5px;margin-top: 5px;background: #A9D0F5;}
+.divPreguntasComplemento{border-bottom: 1px solid #CCC;height: 45px;margin: 5px;background: #FFF;}
+</style>
+<input type="hidden" name="hdnQstCli" id="hdnQstCli" value="{COD_CLI}" />
+<div style="border:1px solid #FF0000;height:99%;" id="qst_main"></div>
+
+<div id="qst_dialog_img"></div>
+<div id="qst_dialog_chart"></div>
+<div id="qst_dialog_formu"></div>
+<div id="qst_dialog_formp"></div>
+<div id="qst_dialog_formg"></div>
+<div id="qst_dialog_pr"></div>
+<div id="qst_dia_log"></div>
+<div id="dialog_preg" style="display:none;">¿Esta seguro de borrar la regla asociada con esta pregunta?</div>
+<div id="dialog_error" style="display:none;">Error. Selecciona un campo</div>
+<div id="dialog_pregElim" style="display:none;">¿Esta seguro de borrar la pregunta del cuestionario?</div>
+<!--<div id="dialog_pregElimMensajes" style="display:none;overflow:auto;position:absolute;width:400px;height:100px;left:50%;top:50%;margin-left:-200px;margin-top:-50px;z-index:999999999;border:1px solid #000;background:#FFF;">Mensajes</div>-->
+<div id="dialog_pregElimMensajes" style="display:none;"></div>
+<div id="qst_dialog" > </div>
+
+<div id="qst_dialog_message" title="&iexcl;Aviso!"></div> 
+<div id="qst_dialog_confirm"></div> 
