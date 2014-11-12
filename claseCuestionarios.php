@@ -121,48 +121,48 @@ class cuestionarios2{
 		/*$sql="SELECT CRM2_CUESTIONARIOS.ID_CUESTIONARIO AS IDCUESTIONARIO, CRM2_CUESTIONARIOS.DESCRIPCION AS Cuestionario,CRM2_CUESTIONARIOS.ITEM_NUMBER AS ITEM_NUMBER,(SELECT COUNT(R.ID_CUESTIONARIO) FROM CRM2_RESPUESTAS R WHERE R.ID_CUESTIONARIO = CRM2_CUESTIONARIOS.ID_CUESTIONARIO AND CAST(R.FECHA AS DATE) BETWEEN '".$sStartDate."' AND '".$sEndDate."') AS RESP
 		FROM CRM2_CUESTIONARIOS
 		WHERE CRM2_CUESTIONARIOS.COD_CLIENT ='".$idCliente."'";*/
-
-		$sql="SELECT CONCAT('Mostrar') AS Mostrar,CONCAT('Editar') AS Editar,CONCAT('Eliminar') AS Eliminar,CRM2_CUESTIONARIOS.ID_CUESTIONARIO AS IDCUESTIONARIO, CRM2_CUESTIONARIOS.DESCRIPCION AS DESCRIPCION,CRM2_CUESTIONARIOS.ITEM_NUMBER AS ITEM_NUMBER,(SELECT COUNT(R.ID_CUESTIONARIO) FROM CRM2_RESPUESTAS R WHERE R.ID_CUESTIONARIO = CRM2_CUESTIONARIOS.ID_CUESTIONARIO AND CAST(R.FECHA AS DATE) BETWEEN '".$sStartDate."' AND '".$sEndDate."') AS RESP 
+		//
+		$sql="SELECT 'Mostrar',CONCAT('Editar') AS Editar,CONCAT('Eliminar') AS Eliminar,CRM2_CUESTIONARIOS.ID_CUESTIONARIO AS IDCUESTIONARIO, CRM2_CUESTIONARIOS.DESCRIPCION AS DESCRIPCION,CRM2_CUESTIONARIOS.ITEM_NUMBER AS ITEM_NUMBER,(SELECT COUNT(R.ID_CUESTIONARIO) FROM CRM2_RESPUESTAS R WHERE R.ID_CUESTIONARIO = CRM2_CUESTIONARIOS.ID_CUESTIONARIO AND CAST(R.FECHA AS DATE) BETWEEN '".$sStartDate."' AND '".$sEndDate."') AS RESP 
 		FROM CRM2_CUESTIONARIOS
 		WHERE CRM2_CUESTIONARIOS.COD_CLIENT = '".$idCliente."'";
 
 		$col = array();
 		$col["title"] = "";
 		$col["name"] = "Mostrar";
-		$col["width"] = "7";
+		$col["width"] = "5";
 		$col["search"] = false;
 		$col["editable"] = false;
 		$col["sortable"] = false; // this column is not sortable 
 		$col["align"] = "center";
 		//$col["link"] = "http://localhost?id={ID_TAREA}"; // e.g. http://domain.com?id={id} given that, there is a column with $col["name"] = "id" exist
 		$col["link"] = "#{IDCUESTIONARIO}"; // e.g. http://domain.com?id={id} given that, there is a column with $col["name"] = "id" exist
-		$col["linkoptions"] = "title='Ver detalle de la tarea' onclick='detalleTarea(this.href,this.event)'"; // extra params with <a> tag
+		$col["linkoptions"] = "title='Ver detalle del Cuestionario' onclick='detalleCuestionario(this.href,event)'"; // extra params with <a> tag
 		$cols[] = $col;
 
 		$col = array();
 		$col["title"] = "";
 		$col["name"] = "Editar";
-		$col["width"] = "7";
+		$col["width"] = "5";
 		$col["search"] = false;
 		$col["editable"] = false;
 		$col["sortable"] = false; // this column is not sortable 
 		$col["align"] = "center";
 		//$col["link"] = "http://localhost?id={ID_TAREA}"; // e.g. http://domain.com?id={id} given that, there is a column with $col["name"] = "id" exist
 		$col["link"] = "#{IDCUESTIONARIO}"; // e.g. http://domain.com?id={id} given that, there is a column with $col["name"] = "id" exist
-		$col["linkoptions"] = "title='Editar Registro' onclick='editarTarea(this.href)'"; // extra params with <a> tag
+		$col["linkoptions"] = "title='Editar Cuestionario' onclick='editarTarea(this.href)'"; // extra params with <a> tag
 		$cols[] = $col;
 
 		$col = array();
 		$col["title"] = "";
 		$col["name"] = "Eliminar";
-		$col["width"] = "7";
+		$col["width"] = "5";
 		$col["search"] = false;
 		$col["editable"] = false;
 		$col["sortable"] = false; // this column is not sortable 
 		$col["align"] = "center";
 		//$col["link"] = "http://localhost?id={ID_TAREA}"; // e.g. http://domain.com?id={id} given that, there is a column with $col["name"] = "id" exist
 		$col["link"] = "#{IDCUESTIONARIO}"; // e.g. http://domain.com?id={id} given that, there is a column with $col["name"] = "id" exist
-		$col["linkoptions"] = "title='Eliminar Registro' onclick='eliminarTarea(this.href)'"; // extra params with <a> tag
+		$col["linkoptions"] = "title='Eliminar Cuestionario' onclick='eliminarTarea(this.href)'"; // extra params with <a> tag
 		$cols[] = $col;
 
 		$col = array();
@@ -187,24 +187,25 @@ class cuestionarios2{
 		$cols[] = $col;
 		
 		$col = array();
+		$col["title"] = "Uso &uacute;ltima semana"; // caption of column
+		$col["name"] = "RESP"; // grid column name, same as db field or alias from sql
+		$col["dbname"] = "RESP";
+		$col["width"] = "11"; // width on grid
+		$col["align"] = "center";
+		$col["resizable"] = true;
+		$col["search"] = false;
+		$cols[] = $col;
+
+		$col = array();
 		$col["title"] = "Item Number"; // caption of column
 		$col["name"] = "ITEM_NUMBER"; // grid column name, same as db field or alias from sql
 		$col["dbname"] = "CRM2_CUESTIONARIOS.ITEM_NUMBER";
-		$col["width"] = "8"; // width on grid
+		$col["width"] = "10"; // width on grid
 		$col["align"] = "center";
 		$col["resizable"] = true;
 		$col["search"] = true;
 		$cols[] = $col;
 		
-		$col = array();
-		$col["title"] = "Uso &uacute;ltima semana"; // caption of column
-		$col["name"] = "RESP"; // grid column name, same as db field or alias from sql
-		$col["width"] = "11"; // width on grid
-		$col["align"] = "center";
-		$col["resizable"] = true;
-		$col["search"] = true;
-		$cols[] = $col;
-
 		//conexion hacia la base de datos
 		$conn=$this->iniciarConexionDbGrid();
 		// set your db encoding -- for ascent chars (if required)

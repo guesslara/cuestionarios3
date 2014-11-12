@@ -11,7 +11,7 @@
 <div style="border:1px solid #FF0000;height:99%;" id="qst_main"></div>
 
 <div id="qst_dialog_img"></div>
-<div id="qst_dialog_chart"></div>
+<div id="qst_dialog_chart" title="Estad&iacute;stica"></div>
 <div id="qst_dialog_formu"></div>
 <div id="qst_dialog_formp"></div>
 <div id="qst_dialog_formg"></div>

@@ -1,0 +1,266 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script>
+$(document).ready(function () {
+	$('#qst_dialog_chart').dialog('option', 'title', 'Estad\u00edstica cuestionario {QSTON}' );
+	$( "#qst_tabs" ).tabs();
+	$( ".datepicker" ).datepicker({
+		showOn: "button",
+		buttonImage: "public/images/cal.gif",
+		buttonImageOnly: true,
+		maxDate: '0',
+		dateFormat: "yy-mm-dd"
+				});
+	$( "input[type=submit]" ).button();
+	$(".boton").button();
+	
+      //$("#all_us" ).val(select_all("gr_user"));
+	//$("#all_ans").val(select_all("gr_preg"));
+	
+	//wi = $("#qst_tabs").width()*.98;
+	//hi = $("#qst_tabs").height()*.85;
+	//$("#qst_tgt_gra").width(wi).height(hi);
+	//$("#qst_tgt_graR").width(wi).height(hi);
+	document.qst_frm_chart.submit();
+	qst_tabla_resp_data($("#id_qst_gral").val());
+	//qst_load_table_rdts();
+	
+	$("a[href=#qst_tab_chartR]").click(function(){
+	     document.qst_frm_chartR.submit();
+	});
+		
+	$("#qst_cnt_tbl_rsp").height($("#qst_tab_chart").height()*0.44);
+	$("#qst_cnt_map_rsp").height($("#qst_tab_chart").height()*0.44);
+	$("#div_qst_rsp_f").height($("#qst_tab_chart").height()*0.88);
+	
+	
+	/*$("a[href=#qst_tab_data]").click(function(){
+		qst_mapa();
+	});*/
+
+      $("#respuestasCuestionarios").click(function(){
+            qst_mapa();
+      });
+	
+	
+	//qst_load_preg_resp(0);
+});
+</script>
+<div id="qst_tabs" style="width:100%; height:98%;">
+<input type="hidden" id="id_qst_gral" value="{ID_QST}"/>
+
+<ul>
+<li><a href="#qst_tab_chart">Gr&aacute;fica</a></li>
+<li><a href="#qst_tab_chartR">Gr&aacute;fica Respuestas</a></li>
+<li><a href="#qst_tab_data" id="respuestasCuestionarios">Respuestas</a></li>
+<!--<li><a href="#qst_tab_mapa">Mapa</a></li>-->
+</ul>
+
+<div id="qst_tab_chart">
+<form name="qst_frm_chart" target="qst_tgt_gra" action="modules/mCuestionario/mGraficas.php"method="get">
+<div style="width:100%; height:15%; border:#2e6e9e dotted thin ; position:relative; left:0%; top:0%; background:#CEE1F0;" class="ui-corner-all">
+<table border="0" width="720">
+      <tr>
+            <td width="10%"><label>Fecha Inicial:</label></td>
+            <td width="15%"><input type="text" id="gr_start_date" name="gr_start_date" class="datepicker caja_date" readonly="readonly" value="{STR_DATE}" style="width:70px;"/></td>
+            <td width="13%">
+                  <select id="gr_hri" name="gr_hri" class="mcaja" style="width:38px;">
+      	           {SD_H}
+                  </select>
+                  <span>:</span>
+                  <select id="gr_mni" name="gr_mni" class="mcaja" style="width:38px;">
+                        {SD_M}
+                  </select>
+            </td>
+            <td width="10%"><label>Fecha Final:</label></td>
+            <td width="10%"><input type="text" id="gr_end_date" name="gr_end_date" class="datepicker caja_date" readonly="readonly" value="{END_DATE}" style="width:70px;" /></td>
+            <td width="13%">
+                  <select id="gr_hrf" name="gr_hrf" class="mcaja" style="width:38px;">
+                        {ED_H}
+                  </select>
+                  <span>:</span>
+                  <select id="gr_mnf" name="gr_mnf" class="mcaja" style="width:38px;">
+                        {ED_M}                                
+                  </select>
+            </td>
+            <td colspan="2" width="10%" align="center">
+                  <label>Usuario:</label>
+                  <select id="gr_user" name="gr_user" class="caja_txt" style="width:100px;">
+                        {USERS}                            
+                  </select>
+            </td>
+      </tr>
+      <tr>
+            <td><label>Pregunta:</label></td>
+            <td colspan="2">
+                  <select id="gr_preg" name="gr_preg" class="caja_txt">
+                        {PREGS}
+                  </select>
+            </td>
+            <td><label>Respuesta:</label></td>
+            <td colspan="2">
+                  <input type="text"  id="gr_resp" name="gr_resp" class="caja_txt" />
+            </td>
+            <td colspan="2" align="right">
+                  <input type="submit" value="Buscar" />
+            </td>
+      </tr>
+      </table>
+</div>
+<input type="hidden" name="all_us"  id="all_us" />
+<input type="hidden" name="all_ans" id="all_ans"/>
+<input type="hidden" name="dbh" value="{DB_H}"/>
+<input type="hidden" name="dbport" value="{DB_PORT}"/>
+<input type="hidden" name="dbname" value="{DB_BN}"/>
+<input type="hidden" name="dbuser" value="{DB_U}"/>
+<input type="hidden" name="dbpass" value="{DB_PASS}"/>
+<input type="hidden" name="id_qst" value="{ID_QST}"/>
+<input type="hidden" name="name_qst" value="{QSTON}"/>
+</form>
+<iframe name="qst_tgt_gra" id="qst_tgt_gra" frameborder="0" style="border:0px solid #FF0000;width:99.7%;height:315px;"></iframe>
+</div><!--qst_tab_chart-->
+
+<div id="qst_tab_chartR">
+<form name="qst_frm_chartR" target="qst_tgt_graR" action="modules/mCuestionario2/mGraficasR.php"method="get">
+<div style="width:100%; height:15%; border:#2e6e9e dotted thin ; position:relative; left:0%; top:0%; background:#CEE1F0;" class="ui-corner-all">
+<table border="0" width="100%">
+      <tr>
+      <td><label>Fecha Inicial:</label></td>
+      <td><input type="text" id="gr_start_date_r" name="gr_start_date_r" class="datepicker caja_date" readonly="readonly" value="{STR_DATE}"/></td>
+      <td>
+      <select id="gr_hri_r" name="gr_hri_r" class="mcaja">
+      	{SD_H}
+      </select>
+      <span>&nbsp;:&nbsp;</span>
+      <select id="gr_mni_r" name="gr_mni_r" class="mcaja">
+        {SD_M}
+      </select>
+      </td>
+
+      <td><label>Fecha Final:</label></td>
+      <td><input type="text" id="gr_end_date_r" name="gr_end_date_r" class="datepicker caja_date" readonly="readonly" value="{END_DATE}" /></td>
+      <td>
+      <select id="gr_hrf_r" name="gr_hrf_r" class="mcaja">
+        {ED_H}
+      </select>
+      <span>&nbsp;:&nbsp;</span>
+      <select id="gr_mnf_r" name="gr_mnf_r" class="mcaja">
+        {ED_M}                                
+      </select>
+      </td>
+      <td style="display:none;"><label>Usuario:</label></td>
+      <td style="display:none;">
+      <select id="gr_user_r" name="gr_user_r" class="caja_txt">
+        {USERS}                            
+      </select>
+      </td>
+      </tr>
+      <tr>
+      <td style="display:none;"><label>Pregunta:</label></td>
+      <td colspan="2" style="display:none;">
+      <select id="gr_preg_r" name="gr_preg_r" class="caja_txt">
+      {PREGS}
+      </select>
+      </td>
+      <td style="display:none;"><label>Respuesta:</label></td>
+      <td colspan="2" style="display:none;">
+      <input type="text"  id="gr_resp_r" name="gr_resp_r" class="caja_txt" />
+      </td>
+      <td>
+      <input type="submit" value="Buscar" />
+      </td>
+      </tr>
+      </table>
+</div>
+<input type="hidden" name="all_us"  id="all_us" />
+<input type="hidden" name="all_ans" id="all_ans"/>
+<input type="hidden" name="dbh" value="{DB_H}"/>
+<input type="hidden" name="dbport" value="{DB_PORT}"/>
+<input type="hidden" name="dbname" value="{DB_BN}"/>
+<input type="hidden" name="dbuser" value="{DB_U}"/>
+<input type="hidden" name="dbpass" value="{DB_PASS}"/>
+<input type="hidden" name="id_qst" value="{ID_QST}"/>
+<input type="hidden" name="name_qst" value="{QSTON}"/>
+</form>
+<iframe name="qst_tgt_graR" id="qst_tgt_graR" frameborder="0" style="border:0px solid #FF0000;width:99.7%;height:345px;"></iframe>
+</div><!--qst_tab_chartR-->
+
+<div id="qst_tab_data">
+<div style="width:100%; height:15%; border:#2e6e9e dotted thin ; position:relative; left:0%; top:0%; background:#CEE1F0;" class="ui-corner-all">
+<table border="0" width="100%">
+      <tr>
+      <td><label>Fecha Inicial:</label></td>
+      <td><input type="text" id="start_date_resp" class="datepicker caja_date" readonly="readonly" value="{STR_DATE}"/></td>
+      <td>
+      <select id="hri_resp" class="mcaja">
+      	{SD_H}
+      </select>
+      <span>&nbsp;:&nbsp;</span>
+      <select id="mni_resp" class="mcaja">
+        {SD_M}
+      </select>
+      </td>
+
+      <td><label>Fecha Final:</label></td>
+      <td><input type="text" id="end_date_resp" class="datepicker caja_date" readonly="readonly" value="{END_DATE}" /></td>
+      <td>
+      <select id="hrf_resp" class="mcaja">
+        {ED_H}
+      </select>
+      <span>&nbsp;:&nbsp;</span>
+      <select id="mnf_resp" class="mcaja">
+        {ED_M}                                
+      </select>
+      </td>
+      <td style="display:none;"><label>Usuario:</label></td>
+      <td style="display:none;">
+      <select id="gr_user_resp" class="caja_txt">
+        {USERS}                            
+      </select>
+      </td>
+      </tr>
+      <tr>
+      <td style="display:none;"><label>Pregunta:</label></td>
+      <td colspan="2" style="display:none;">
+      <select id="gr_preg_resp" class="caja_txt">
+      {PREGS}
+      </select>
+      </td>
+      <td style="display:none;"><label>Respuesta:</label></td>
+      <td colspan="2" style="display:none;">
+      <input type="text"  id="gr_resp_resp" class="caja_txt" />
+      </td>
+      <td>
+      <button type="button" class="boton" onclick="qst_tabla_resp_data($('#id_qst_gral').val())">Buscar</button>
+      </td>
+      </tr>
+      </table>
+</div>
+<div style="width:100%; height:84%; position:relative; top:16%;" id="div_qst_rsp_c">
+<div style="width:30%; position:relative; left:0%;" id="div_qst_rsp_f">
+</div> 
+<div id="qst_cnt_tbl_rsp" style="position:absolute; width:69%; left:31%; top: 0%;">
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="qst_table_preg_resp">
+<thead>
+<th colspan="5"><strong>Detalle evidencias</strong>
+<button class="edit small_btn" onclick="qst_fedit_pr();" title="Editar" style="float:right;"></button>
+<button class="note small_btn" onclick="qst_get_log();" title="Log" style="float:right;"></button>
+</th>
+<tr>
+<th>Pregunta</th>	
+<th>Respuesta</th>	
+</tr>
+</thead>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="qst_cnt_map_rsp" class="ui-corner-all" style="position:absolute; width:69%; left:31%; bottom: 0%;"></div> 
+</div>
+</div><!--qst_tab_data-->
+
+
+<div id="qst_tab_mapa"></div><!--qst_tab_mapa-->
+
+</div><!--qst_tabs-->
